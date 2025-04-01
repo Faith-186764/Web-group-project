@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Wanderlust</title>
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #e9c46a;
+            --dark: #264653;
+            --light: #f8f9fa;
+            --accent: #e76f51;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a.active {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 1rem;
+        }
+        
+        .about-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .about-intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .about-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .about-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .about-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .about-card-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 2rem;
+        }
+        
+        .about-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .about-card p {
+            color: #555;
+        }
+        
+        .team-section {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+        
+        .team-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .team-section p {
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .team-member {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .member-img {
+            height: 250px;
+            background-color: #ddd;
+        }
+        
+        .member-info {
+            padding: 1.5rem;
+        }
+        
+        .member-name {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .member-title {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .member-bio {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 32px;
+            height: 32px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .stats-section {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .stat-item p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .testimonials {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+        
+        .testimonials h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .testimonials-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 1rem;
+        }
+        
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--dark);
+        }
+        
+        .author-info p {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .cta-section {
+            background-color: var(--primary);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: #d35f43;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 1rem 2rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary);
+        }
+        
+        .copyright {
+            max-width: 1200px;
+            margin: 3rem auto 0 auto;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 992px) {
+            .about-cards,
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .about-cards,
+            .team-grid,
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Wanderlust</div>
+            <ul class="nav-links">
+                <li><a href="Index.html">Home</a></li>
+                <li><a href="destination.html">Destinations</a></li>
+                <li><a href="Deals.html">Special Deals</a></li>
+                <li><a href="Blog.html">Blog</a></li>
+                <li><a href="BookingPage.html">Booking</a></li>
+                <li><a href="About.html" class="active">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>About Wanderlust</h1>
+        <p>Get to know our story, our mission, and the passionate team behind your dream travel experiences.</p>
+    </div>
+
+    <div class="about-container">
+        <div class="about-intro">
+            <h2>Our Story</h2>
+            <p>Founded in 2018, Wanderlust was born from a shared passion for authentic travel experiences and a desire to help others discover the world's most incredible destinations. What began as a small blog written by two friends has grown into a trusted travel platform with a global community of explorers, all connected by the belief that travel has the power to transform lives.</p>
+            <p>Today, we're proud to help thousands of travelers plan journeys that go beyond tourist traps to discover the heart and soul of destinations around the world.</p>
+        </div>
+
+        <div class="about-cards">
+            <div class="about-card">
+                <div class="about-card-icon">M</div>
+                <h3>Our Mission</h3>
+                <p>We believe in travel that connects rather than consumes. Our mission is to inspire and empower travelers to explore the world with authenticity, respect, and wonder, creating experiences that enrich lives and foster global understanding.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon">V</div>
+                <h3>Our Vision</h3>
+                <p>We envision a world where travel is a force for good—one that preserves and celebrates cultural heritage, supports local communities, protects natural environments, and creates meaningful experiences that last a lifetime.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon">V</div>
+                <h3>Our Values</h3>
+                <p>Authenticity, sustainability, curiosity, respect, and connection guide everything we do. We believe in responsible travel that leaves positive impacts, both on travelers and the places they visit.</p>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <h2>Meet Our Team</h2>
+            <p>Wanderlust is powered by a diverse team of travel enthusiasts, industry experts, and digital storytellers who share a common passion for exploration and discovery.</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-img"></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Sarah Johnson</h3>
+                        <p class="member-title">Founder & CEO</p>
+                        <p class="member-bio">A former journalist with a passion for cultural immersion, Sarah has visited 78 countries and counting. She founded Wanderlust to share authentic travel stories.</p>
+                        <div class="social-links">
+                            <a href="#">L</a>
+                            <a href="#">T</a>
+                            <a href="#">I</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-img"></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Miguel Rodriguez</h3>
+                        <p class="member-title">Co-Founder & Head of Content</p>
+                        <p class="member-bio">With a background in photography and anthropology, Miguel brings destinations to life through compelling visual storytelling.</p>
+                        <div class="social-links">
+                            <a href="#">L</a>
+                            <a href="#">T</a>
+                            <a href="#">I</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-img"></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Aisha Patel</h3>
+                        <p class="member-title">Destination Expert - Asia & Oceania</p>
+                        <p class="member-bio">Born in Mumbai and raised in Sydney, Aisha specializes in crafting immersive experiences throughout Asia and the Pacific islands.</p>
+                        <div class="social-links">
+                            <a href="#">L</a>
+                            <a href="#">T</a>
+                            <a href="#">I</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-img"></div>
+                    <div class="member-info">
+                        <h3 class="member-name">Thomas Berg</h3>
+                        <p class="member-title">Destination Expert - Europe</p>
+                        <p class="member-bio">A multilingual guide with deep knowledge of European history, Thomas creates journeys that blend iconic landmarks with hidden treasures.</p>
+                        <div class="social-links">
+                            <a href="#">L</a>
+                            <a href="#">T</a>
+                            <a href="#">I</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <h3>15K+</h3>
+                    <p>Happy Travelers</p>
+                </div>
+                <div class="stat-item">
+                    <h3>120+</h3>
+                    <p>Destinations</p>
+                </div>
+                <div class="stat-item">
+                    <h3>4.9</h3>
+                    <p>Average Rating</p>
+                </div>
+                <div class="stat-item">
+                    <h3>7</h3>
+                    <p>Years of Experience</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonials">
+            <h2>What Our Travelers Say</h2>
+            <div class="testimonials-container">
+                <p class="testimonial-text">"Working with Wanderlust transformed our honeymoon from a typical tourist experience into the adventure of a lifetime. Their insider knowledge of Peru led us to places we'd never have discovered on our own, and their attention to detail made every moment special."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Emma & Daniel Wilson</h4>
+                        <p>Peru Expedition, 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-container">
+                <h2>Start Your Journey With Us</h2>
+                <p>Ready to experience the world differently? Let's create your perfect travel adventure together.</p>
+                <a href="contact.html" class="cta-button">Contact Us</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Wanderlust</h3>
+                <p>We're passionate about helping travelers discover the world's most amazing destinations with personalized itineraries and exceptional service.</p>
+                <div class="social-icons">
+                    <a href="#">F</a>
+                    <a href="#">T</a>
+                    <a href="#">I</a>
+                    <a href="#">P</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Destinations</h3>
+                <ul>
+                    <li><a href="#">Europe</a></li>
+                    <li><a href="#">Asia</a></li>
+                    <li><a href="#">Africa</a></li>
+                    <li><a href="#">North America</a></li>
+                    <li><a href="#">South America</a></li>
+                    <li><a href="#">Oceania</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Travel Types</h3>
+                <ul>
+                    <li><a href="#">Luxury</a></li>
+                    <li><a href="#">Adventure</a></li>
+                    <li><a href="#">Family</a></li>
+                    <li><a href="#">Budget</a></li>
+                    <li><a href="#">Honeymoon</a></li>
+                    <li><a href="#">Group Tours</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Help & Support</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Booking Information</a></li>
+                    <li><a href="#">Cancellation Policy</a></li>
+                    <li><a href="#">Travel Insurance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Wanderlust Travel. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

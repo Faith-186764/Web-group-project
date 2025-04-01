@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust - Special Deals</title>
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #e9c46a;
+            --dark: #264653;
+            --light: #f8f9fa;
+            --accent: #e76f51;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a.active {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .countdown-banner {
+            background-color: var(--accent);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+        }
+        
+        .deals-container {
+            max-width: 1200px;
+            margin: 0 auto 4rem auto;
+            padding: 0 1rem;
+        }
+        
+        .deal-categories {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .category-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: white;
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            color: var(--primary);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover,
+        .category-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .featured-deals {
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .featured-deals-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .featured-deal-card {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .featured-deal-img {
+            flex: 0 0 40%;
+            background-color: #ddd;
+            min-height: 250px;
+        }
+        
+        .featured-deal-content {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .deal-tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background-color: var(--secondary);
+            color: var(--dark);
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .deal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .deal-details {
+            margin-bottom: 1rem;
+        }
+        
+        .price-container {
+            margin-top: auto;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 1.1rem;
+        }
+        
+        .current-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .savings {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            background-color: #ffebee;
+            color: #f44336;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .book-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .book-btn:hover {
+            background-color: #24877c;
+        }
+        
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .deal-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .deal-img {
+            height: 200px;
+            background-color: #ddd;
+            position: relative;
+        }
+        
+        .deal-location {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+        }
+        
+        .deal-location h3 {
+            margin: 0;
+        }
+        
+        .deal-content {
+            padding: 1.5rem;
+        }
+        
+        .deal-features {
+            display: flex;
+            margin-bottom: 1rem;
+            gap: 0.8rem;
+        }
+        
+        .deal-feature {
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        .deal-duration,
+        .deal-guests {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .newsletter {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            background-color: var(--dark);
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+        }
+        
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-form button {
+            padding: 1rem 2rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #d35f43;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 1rem 2rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary);
+        }
+        
+        .copyright {
+            max-width: 1200px;
+            margin: 3rem auto 0 auto;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 992px) {
+            .featured-deals-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .featured-deal-card {
+                flex-direction: column;
+            }
+            
+            .featured-deal-img {
+                flex: 0 0 200px;
+            }
+            
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Wanderlust</div>
+            <ul class="nav-links">
+                <li><a href="Index.html">Home</a></li>
+                <li><a href="destination.html">Destinations</a></li>
+                <li><a href="Deals.html" class="active">Special Deals</a></li>
+                <li><a href="Blog.html">Blog</a></li>
+                <li><a href="BookingPage.html">Booking</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Special Deals & Offers</h1>
+        <p>Discover incredible savings on unforgettable travel experiences with our exclusive limited-time offers.</p>
+    </div>
+
+    <div class="countdown-banner">
+        <h2>Spring Flash Sale! 72 Hours Only</h2>
+        <p>Up to 40% off on selected destinations. Offers expire in 68:45:22.</p>
+    </div>
+
+    <div class="deals-container">
+        <div class="deal-categories">
+            <button class="category-btn active">All Deals</button>
+            <button class="category-btn">Last Minute</button>
+            <button class="category-btn">Early Bird</button>
+            <button class="category-btn">Beach</button>
+            <button class="category-btn">City Breaks</button>
+            <button class="category-btn">Family</button>
+        </div>
+
+        <div class="featured-deals">
+            <h2 class="section-title">Hot Deals</h2>
+            <div class="featured-deals-grid">
+                <div class="featured-deal-card">
+                    <div class="featured-deal-img"></div>
+                    <div class="featured-deal-content">
+                        <div class="deal-tag">Limited Offer</div>
+                        <h3 class="deal-title">Luxury Santorini Escape</h3>
+                        <div class="deal-details">
+                            <p>7 nights at a 5-star resort with breathtaking caldera views. Includes daily breakfast, private transfers, sunset cruise, and wine tasting experience.</p>
+                        </div>
+                        <div class="price-container">
+                            <div class="old-price">$2,399</div>
+                            <div class="current-price">$1,699</div>
+                            <div class="savings">Save 30%</div>
+                            <a href="BookingPage.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="featured-deal-card">
+                    <div class="featured-deal-img"></div>
+                    <div class="featured-deal-content">
+                        <div class="deal-tag">Flash Sale</div>
+                        <h3 class="deal-title">Bali Paradise Package</h3>
+                        <div class="deal-details">
+                            <p>10 nights split between Ubud and Seminyak, including daily yoga, spa treatments, cultural tours, and private villa accommodation with pool.</p>
+                        </div>
+                        <div class="price-container">
+                            <div class="old-price">$1,899</div>
+                            <div class="current-price">$1,299</div>
+                            <div class="savings">Save 32%</div>
+                            <a href="BookingPage.html" class="book-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Current Offers</h2>
+        <div class="deals-grid">
+            <div class="deal-card">
+                <div class="deal-img" background-image="url('https://th.bing.com/th/id/OIP.JLrgIGxzzScaJ76TD3N4CgHaE8?rs=1&pid=ImgDetMain')">
+                    <div class="deal-location">
+                        <h3>Rome, Italy</h3>
+                    </div>
+                </div>
+                <div class="deal-content">
+                    <div class="deal-tag">Early Bird</div>
+                    <h3 class="deal-title">Roman Holiday</h3>
+                    <div class="deal-features">
+                        <div class="deal-duration">5 nights</div>
+                        <div class="deal-guests">2 adults</div>
+                    </div>
+                    <p>Experience the eternal city with guided tours of Vatican, Colosseum, and Roman Forum. Includes boutique hotel stay near historic center.</p>
+                    <div class="price-container">
+                        <div class="old-price">$1,299</div>
+                        <div class="current-price">$949</div>
+                        <div class="savings">Save 25%</div>
+                        <a href="BookingPage.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deal-card">
+                <div class="deal-img">
+                    <div class="deal-location">
+                        <h3>Phuket, Thailand</h3>
+                    </div>
+                </div>
+                <div class="deal-content">
+                    <div class="deal-tag">Last Minute</div>
+                    <h3 class="deal-title">Thai Beach Retreat</h3>
+                    <div class="deal-features">
+                        <div class="deal-duration">7 nights</div>
+                        <div class="deal-guests">2 adults</div>
+                    </div>
+                    <p>Beachfront resort with daily breakfast, island hopping tour, Thai cooking class, and airport transfers included.</p>
+                    <div class="price-container">
+                        <div class="old-price">$1,599</div>
+                        <div class="current-price">$999</div>
+                        <div class="savings">Save 38%</div>
+                        <a href="BookingPage.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deal-card">
+                <div class="deal-img">
+                    <div class="deal-location">
+                        <h3>Barcelona, Spain</h3>
+                    </div>
+                </div>
+                <div class="deal-content">
+                    <div class="deal-tag">Weekend Break</div>
+                    <h3 class="deal-title">Barcelona City Escape</h3>
+                    <div class="deal-features">
+                        <div class="deal-duration">3 nights</div>
+                        <div class="deal-guests">2 adults</div>
+                    </div>
+                    <p>Central hotel accommodation with daily breakfast, skip-the-line Sagrada Familia tickets, and tapas tour included.</p>
+                    <div class="price-container">
+                        <div class="old-price">$899</div>
+                        <div class="current-price">$699</div>
+                        <div class="savings">Save 22%</div>
+                        <a href="BookingPage.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deal-card">
+                <div class="deal-img">
+                    <div class="deal-location">
+                        <h3>Maldives</h3>
+                    </div>
+                </div>
+                <div class="deal-content">
+                    <div class="deal-tag">Honeymoon</div>
+                    <h3 class="deal-title">Maldives Dream</h3>
+                    <div class="deal-features">
+                        <div class="deal-duration">6 nights</div>
+                        <div class="deal-guests">2 adults</div>
+                    </div>
+                    <p>Overwater villa with half-board meal plan, couple's spa treatment, sunset cruise, and snorkeling excursion.</p>
+                    <div class="price-container">
+                        <div class="old-price">$3,999</div>
+                        <div class="current-price">$2,599</div>
+                        <div class="savings">Save 35%</div>
+                        <a href="BookingPage.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deal-card">
+                <div class="deal-img">
+                    <div class="deal-location">
+                        <h3>New York, USA</h3>
+                    </div>
+                </div>
+                <div class="deal-content">
+                    <div class="deal-tag">City Break</div>
+                    <h3 class="deal-title">NYC Experience</h3>
+                    <div class="deal-features">
+                        <div class="deal-duration">4 nights</div>
+                        <div class="deal-guests">2 adults</div>
+                    </div>
+                    <p>Midtown hotel, Statue of Liberty and Ellis Island tour, Broadway show tickets, and Empire State Building access.</p>
+                    <div class="price-container">
+                        <div class="old-price">$1,499</div>
+                        <div class="current-price">$1,199</div>
+                        <div class="savings">Save 20%</div>
+                        <a href="BookingPage.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deal-card">
+                <div class="deal-img">
+                    <div class="deal-location">
+                        <h3>Swiss Alps</h3>
+                    </div>
+                </div>
+                <div class="deal-content">
+                    <div class="deal-tag">Family</div>
+                    <h3 class="deal-title">Alpine Adventure</h3>
+                    <div class="deal-features">
+                        <div class="deal-duration">7 nights</div>
+                        <div class="deal-guests">4 persons</div>
+                    </div>
+                    <p>Spacious chalet with mountain views, ski passes, toboggan run tickets, and Swiss chocolate workshop for children.</p>
+                    <div class="price-container">
+                        <div class="old-price">$2,899</div>
+                        <div class="current-price">$2,199</div>
+                        <div class="savings">Save 24%</div>
+                        <a href="BookingPage.html" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="newsletter">
+        <h2>Travel Inspiration in Your Inbox</h2>
+        <p>Subscribe to our newsletter for exclusive deals, destination guides, and travel tips.</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Your email address">
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Wanderlust</h3>
+                <p>We're passionate about helping travelers discover the world's most amazing destinations with personalized itineraries and exceptional service.</p>
+                <div class="social-icons">
+                    <a href="#">F</a>
+                    <a href="#">T</a>
+                    <a href="#">I</a>
+                    <a href="#">P</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Destinations</h3>
+                <ul>
+                    <li><a href="#">Europe</a></li>
+                    <li><a href="#">Asia</a></li>
+                    <li><a href="#">Africa</a></li>
+                    <li><a href="#">North America</a></li>
+                    <li><a href="#">South America</a></li>
+                    <li><a href="#">Oceania</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Travel Types</h3>
+                <ul>
+                    <li><a href="#">Luxury</a></li>
+                    <li><a href="#">Adventure</a></li>
+                    <li><a href="#">Family</a></li>
+                    <li><a href="#">Budget</a></li>
+                    <li><a href="#">Honeymoon</a></li>
+                    <li><a href="#">Group Tours</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Help & Support</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Booking Information</a></li>
+                    <li><a href="#">Cancellation Policy</a></li>
+                    <li><a href="#">Travel Insurance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Wanderlust Travel. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>
