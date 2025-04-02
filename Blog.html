@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust - Travel Blog</title>
+    <style>
+        :root {
+            --primary: #2a9d8f;
+            --secondary: #e9c46a;
+            --dark: #264653;
+            --light: #f8f9fa;
+            --accent: #e76f51;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a.active {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .blog-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .blog-categories {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: white;
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .category-tag:hover,
+        .category-tag.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .featured-post {
+            margin-bottom: 3rem;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .featured-img {
+            height: 400px;
+            background-color: #ddd;
+        }
+        
+        .featured-content {
+            padding: 2rem;
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .post-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .read-more {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .read-more:hover {
+            background-color: #24877c;
+        }
+        
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .post-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .post-img {
+            height: 200px;
+            background-color: #ddd;
+        }
+        
+        .post-content {
+            padding: 1.5rem;
+        }
+        
+        .post-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--secondary);
+            color: var(--dark);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .post-category.tips {
+            background-color: #b2ebf2;
+            color: #0277bd;
+        }
+        
+        .post-category.adventure {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .post-category.culture {
+            background-color: #f0f4c3;
+            color: #827717;
+        }
+        
+        .post-category.food {
+            background-color: #ffccbc;
+            color: #bf360c;
+        }
+        
+        .post-excerpt {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        
+        .sidebar-widget {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .widget-title {
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .search-form {
+            display: flex;
+        }
+        
+        .search-form input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-form button {
+            padding: 0.8rem 1.2rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .popular-posts {
+            list-style: none;
+        }
+        
+        .popular-post {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .popular-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .popular-post-img {
+            flex: 0 0 80px;
+            height: 60px;
+            background-color: #ddd;
+            margin-right: 1rem;
+        }
+        
+        .popular-post-content {
+            flex: 1;
+        }
+        
+        .popular-post-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+        
+        .popular-post-date {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background-color: #f0f0f0;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #555;
+            transition: all 0.3s;
+        }
+        
+        .tag:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .newsletter {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 3rem 2rem;
+            background-color: var(--dark);
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+        }
+        
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .newsletter-form button {
+            padding: 1rem 2rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background-color: #d35f43;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 0.5rem;
+        }
+        
+        .pagination a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 4px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .pagination a:hover,
+        .pagination a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 1rem 2rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary);
+        }
+        
+        .copyright {
+            max-width: 1200px;
+            margin: 3rem auto 0 auto;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 992px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Wanderlust</div>
+            <ul class="nav-links">
+                <li><a href="Index.html">Home</a></li>
+                <li><a href="destination.html">Destinations</a></li>
+                <li><a href="Deals.html">Special Deals</a></li>
+                <li><a href="Blog.html" class="active">Blog</a></li>
+                <li><a href="BookingPage.html">Booking</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h1>Travel Blog</h1>
+        <p>Discover travel insights, tips, destination guides and stories from around the world.</p>
+    </div>
+
+    <div class="blog-container">
+        <main>
+            <div class="blog-categories">
+                <a href="#" class="category-tag active">All</a>
+                <a href="#" class="category-tag">Travel Tips</a>
+                <a href="#" class="category-tag">Adventure</a>
+                <a href="#" class="category-tag">Culture</a>
+                <a href="#" class="category-tag">Food</a>
+                <a href="#" class="category-tag">Photography</a>
+                <a href="#" class="category-tag">Sustainability</a>
+            </div>
+
+            <article class="featured-post">
+                <div class="featured-img"></div>
+                <div class="featured-content">
+                    <div class="post-meta">
+                        <span>March 6, 2025</span>
+                        <span>By Maria Rodriguez</span>
+                        <span>5 min read</span>
+                    </div>
+                    <h2 class="post-title">10 Hidden Gems in Southeast Asia You Need to Visit in 2025</h2>
+                    <p>Beyond the well-trodden paths of Bangkok and Bali lie countless treasures waiting to be discovered. From secluded beaches with crystal-clear waters to mountain villages where time seems to stand still, Southeast Asia offers intrepid travelers a wealth of authentic experiences away from the crowds.</p>
+                    <p>In this guide, we reveal 10 lesser-known destinations that showcase the region's incredible diversity, rich cultural heritage, and natural beauty - all while helping you avoid the overtourism affecting more popular spots.</p>
+                    <a href="#" class="read-more">Read More</a>
+                </div>
+            </article>
+
+            <div class="posts-grid">
+                <article class="post-card">
+                    <div class="post-img"></div>
+                    <div class="post-content">
+                        <span class="post-category tips">Travel Tips</span>
+                        <div class="post-meta">
+                            <span>March 2, 2025</span>
+                            <span>4 min read</span>
+                        </div>
+                        <h3 class="post-title">How to Pack Like a Pro: Essential Tips for Light Travel</h3>
+                        <p class="post-excerpt">Discover the art of minimalist packing with our expert tips that will help you travel lighter without sacrificing comfort or style.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-img"></div>
+                    <div class="post-content">
+                        <span class="post-category adventure">Adventure</span>
+                        <div class="post-meta">
+                            <span>February 28, 2025</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h3 class="post-title">Trekking the Inca Trail: A Complete Guide for First-Timers</h3>
+                        <p class="post-excerpt">Everything you need to know before embarking on the iconic journey to Machu Picchu, from preparation to what to expect along the way.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-img"></div>
+                    <div class="post-content">
+                        <span class="post-category culture">Culture</span>
+                        <div class="post-meta">
+                            <span>February 24, 2025</span>
+                            <span>5 min read</span>
+                        </div>
+                        <h3 class="post-title">Understanding Japanese Etiquette: A Visitor's Guide</h3>
+                        <p class="post-excerpt">Navigate cultural nuances with confidence and respect during your Japanese adventure with these essential etiquette tips.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-img"></div>
+                    <div class="post-content">
+                        <span class="post-category food">Food</span>
+                        <div class="post-meta">
+                            <span>February 20, 2025</span>
+                            <span>7 min read</span>
+                        </div>
+                        <h3 class="post-title">Street Food Safaris: Culinary Adventures in Mexico City</h3>
+                        <p class="post-excerpt">From tacos al pastor to churros, discover the vibrant flavors of Mexico's capital through its incredible street food scene.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-img"></div>
+                    <div class="post-content">
+                        <span class="post-category">Photography</span>
+                        <div class="post-meta">
+                            <span>February 15, 2025</span>
+                            <span>5 min read</span>
+                        </div>
+                        <h3 class="post-title">Capturing the Northern Lights: Photography Tips for Beginners</h3>
+                        <p class="post-excerpt">Learn how to photograph one of nature's most spectacular phenomena with our easy-to-follow guide for amateur photographers.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-img"></div>
+                    <div class="post-content">
+                        <span class="post-category">Sustainability</span>
+                        <div class="post-meta">
+                            <span>February 10, 2025</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h3 class="post-title">Eco-Friendly Travel: How to Reduce Your Carbon Footprint</h3>
+                        <p class="post-excerpt">Simple yet effective ways to make your travels more sustainable without sacrificing memorable experiences.</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">→</a>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Search</h3>
+                <form class="search-form">
+                    <input type="text" placeholder="Search articles...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Popular Posts</h3>
+                <ul class="popular-posts">
+                    <li class="popular-post">
+                        <div class="popular-post-img"></div>
+                        <div class="popular-post-content">
+                            <h4 class="popular-post-title">Best Time to Visit the Maldives: Weather Guide</h4>
+                            <span class="popular-post-date">January 28, 2025</span>
+                        </div>
+                    </li>
+                    <li class="popular-post">
+                        <div class="popular-post-img"></div>
+                        <div class="popular-post-content">
+                            <h4 class="popular-post-title">Digital Nomad Visas: Countries Welcoming Remote Workers</h4>
+                            <span class="popular-post-date">January 15, 2025</span>
+                        </div>
+                    </li>
+                    <li class="popular-post">
+                        <div class="popular-post-img"></div>
+                        <div class="popular-post-content">
+                            <h4 class="popular-post-title">Solo Female Travel: Safety Tips & Best Destinations</h4>
+                            <span class="popular-post-date">January 5, 2025</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Categories</h3>
+                <ul>
+                    <li><a href="#">Travel Tips (24)</a></li>
+                    <li><a href="#">Adventure (18)</a></li>
+                    <li><a href="#">Culture (15)</a></li>
+                    <li><a href="#">Food (12)</a></li>
+                    <li><a href="#">Photography (10)</a></li>
+                    <li><a href="#">Sustainability (8)</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Popular Tags</h3>
+                <div class="tag-cloud">
+                    <a href="#" class="tag">Europe</a>
+                    <a href="#" class="tag">Beach</a>
+                    <a href="#" class="tag">Hiking</a>
+                    <a href="#" class="tag">Solo Travel</a>
+                    <a href="#" class="tag">Budget</a>
+                    <a href="#" class="tag">Luxury</a>
+                    <a href="#" class="tag">Local Cuisine</a>
+                    <a href="#" class="tag">Wildlife</a>
+                    <a href="#" class="tag">City Breaks</a>
+                    <a href="#" class="tag">Road Trips</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="newsletter">
+        <h2>Travel Inspiration in Your Inbox</h2>
+        <p>Subscribe to our newsletter for exclusive deals, destination guides, and travel tips.</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Your email address">
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Wanderlust</h3>
+                <p>We're passionate about helping travelers discover the world's most amazing destinations with personalized itineraries and exceptional service.</p>
+                <div class="social-icons">
+                    <a href="#">F</a>
+                    <a href="#">T</a>
+                    <a href="#">I</a>
+                    <a href="#">P</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Destinations</h3>
+                <ul>
+                    <li><a href="#">Europe</a></li>
+                    <li><a href="#">Asia</a></li>
+                    <li><a href="#">Africa</a></li>
+                    <li><a href="#">North America</a></li>
+                    <li><a href="#">South America</a></li>
+                    <li><a href="#">Oceania</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Travel Types</h3>
+                <ul>
+                    <li><a href="#">Luxury</a></li>
+                    <li><a href="#">Adventure</a></li>
+                    <li><a href="#">Family</a></li>
+                    <li><a href="#">Budget</a></li>
+                    <li><a href="#">Honeymoon</a></li>
+                    <li><a href="#">Group Tours</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Help & Support</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Booking Information</a></li>
+                    <li><a href="#">Cancellation Policy</a></li>
+                    <li><a href="#">Travel Insurance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Wanderlust Travel. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>
